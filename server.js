@@ -7,6 +7,8 @@ const assert = require('assert');
 const fileUpload = require('express-fileupload');
 const { StatusCodes } = require('http-status-codes');
 
+const connectDB = require('./db');
+
 //port
 const PORT = process.env.PORT
 
@@ -35,6 +37,7 @@ app.use(`/api/v1/user`, userRoute)
 
 const start = async () => {
     try {
+        await connectDB()
         app.listen(PORT, () => {
             console.log(`server is listening at http://localhost:${PORT}`);
         })
