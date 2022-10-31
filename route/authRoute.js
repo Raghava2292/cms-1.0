@@ -6,8 +6,8 @@ route.post(`/register`, authController.register)
 route.post(`/login`, authController.login)
 
 route.get(`/logout`, authController.logout)
-route.get(`/refresh-token`, authController.refreshToken)
+route.get(`/refreshToken`, authController.refreshToken)
 
-route.patch(`/reset-password/:id`, authController.resetPassword)
+route.patch(`/resetPassword/:id`, authController.resetPassword)
 
 module.exports = route
