@@ -73,7 +73,8 @@ const authController = {
                     return res.status(StatusCodes.BAD_REQUEST).json({msg: "Invalid Access Token. Login Again"})
 
                 //valid token
-                res.json({user})
+                    const accessToken = createAccessToken({ id: user._id})
+                res.json({accessToken})
             })
             
             // res.json({ rf })
@@ -83,7 +84,25 @@ const authController = {
     },
     resetPassword: async (req, res) => {
         try {
-            res.json({msg: "resetPassword"})
+            const id = req.user.id
+            const {oldPassword, newPassword} = req.body
+            // read user data
+            const extUser = await User.findById({_id: id})
+                if(!extUser)
+                    return res.status(StatusCodes.NOT_FOUND).json({msg: "user doesn't exist"})
+            
+            //compare password
+            const isMatch = await bcrypt.compare(oldPassword, extUser.password)
+                if (!isMatch)
+                    return res.status(StatusCodes.BAD_REQUEST).json({msg: " old passwords are not matching"})
+            // generate newPassword hash
+            const passwordHash = await bcrypt.hash(newPassword, 10)
+
+            //update logic
+            const output = await User.findByIdAndUpdate({_id: id}, {password: passwordHash})
+            //output response
+            res.json({msg: "user password reset success", output})
+            res.json({passwordHash})
         } catch (err) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({msg: err.message})
         }
