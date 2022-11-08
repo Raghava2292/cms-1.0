@@ -3,6 +3,9 @@ const User = require('../model/userModel');
 const bcrypt = require('bcryptjs'); // default imports - can be assigned to another variable
 const { createAccessToken } = require('../util/token'); //with curly braces - constant or named imports - cannot be assigned to another variable
 const jwt = require('jsonwebtoken');
+const regTemplate = require('../template/regTemplate');
+const sendMail = require('../middleware/mail');
+const regTemplate = require("../template/regTemplate");
 
 const authController = {
     register: async (req, res) => {
@@ -17,7 +20,12 @@ const authController = {
                 mobile,
                 password: encPassword
             })
-            res.status(StatusCodes.OK).json({msg: "User registerd successfully", data: newUser})
+            const template = regTemplate(name, email)
+            const subject = `Confirmation of registration with CMS-v1.0`
+
+            await sendMail(email, subject, template)
+
+             res.status(StatusCodes.OK).json({msg: "User registerd successfully", data: newUser})
         } catch (err) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({msg: err.message})
         }
