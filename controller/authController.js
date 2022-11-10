@@ -5,7 +5,6 @@ const { createAccessToken } = require('../util/token'); //with curly braces - co
 const jwt = require('jsonwebtoken');
 const regTemplate = require('../template/regTemplate');
 const sendMail = require('../middleware/mail');
-const regTemplate = require("../template/regTemplate");
 
 const authController = {
     register: async (req, res) => {
