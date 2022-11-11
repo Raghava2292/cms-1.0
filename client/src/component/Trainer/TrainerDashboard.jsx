@@ -1,15 +1,15 @@
 import React from 'react'
 
-function AdminDashboard() {
+function TrainerDashboard() {
   return (
     <div className="container">
         <div className="row">
             <div className="col-md-12 text-center">
-                <h3 className="display-3">Admin Dashboard</h3>
+                <h3 className="display-3">Trainer Dashboard</h3>
             </div>
         </div>
     </div>
   )
 }
 
-export default AdminDashboard
+export default TrainerDashboard
